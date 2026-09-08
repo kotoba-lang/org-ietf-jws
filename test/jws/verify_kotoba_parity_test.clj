@@ -43,7 +43,7 @@
 (ns jws.verify-kotoba-parity-test
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [clojure.test :refer [deftest is testing]]
             [jws.core :as jws]
             [jws.guest-document :refer [->doc]]
