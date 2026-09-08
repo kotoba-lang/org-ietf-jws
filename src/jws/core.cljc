@@ -40,7 +40,7 @@
      (jws/verify compact {:expected-alg \"EdDSA\"
                           :verify (fn [signing-input sig] (ed/verify pub signing-input sig))
                           :json-decode json/read-str})"
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [multiformats.core :as mf]))
 
 (def unsecured-alg "none")
