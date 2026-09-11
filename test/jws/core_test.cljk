@@ -206,7 +206,7 @@
 
 (def cross-host-signing-input
   "The Signing Input for a fixed header and payload, pinned identically here and in
-   test/nbb_smoke.cljs.
+   test/nbb_smoke.cljk.
 
    §5.1 signs these exact bytes, so if :clj and :cljs ever produce different ones,
    a token signed on one host fails on the other with :jws/bad-signature — which
