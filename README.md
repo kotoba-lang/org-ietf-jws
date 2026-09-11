@@ -61,8 +61,8 @@ checked, so nothing it returns is trustworthy yet.
 ## Test
 
 ```bash
-clojure -M:dev:test
-clojure -M:lint
+kbb -M:dev:test
+kbb -M:lint
 npm install && npm run smoke     # the :cljs branch
 ```
 
