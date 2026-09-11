@@ -35,7 +35,7 @@
 (println "jws :cljs smoke")
 
 ;; The cross-host invariant: the Signing Input for a fixed header and payload.
-;; Pinned identically in test/jws/core_test.clj — if the hosts disagree here,
+;; Pinned identically in test/jws/core_test.cljk — if the hosts disagree here,
 ;; nothing they sign interoperates, and the symptom is a bad-signature error that
 ;; points at the key instead of the bytes.
 (check "signing input for a fixed header/payload"
