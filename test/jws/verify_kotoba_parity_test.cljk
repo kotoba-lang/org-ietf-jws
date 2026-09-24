@@ -41,8 +41,8 @@
 ;;     than the producer did, and the failure looks like a bad key.
 
 (ns jws.verify-kotoba-parity-test
-  (:require [clojure.data.json :as json]
-            [clojure.java.io :as io]
+  (:require [kotoba.bytes :as kbytes] [clojure.data.json :as json]
+            [kotoba.io :as io]
             [kotoba.lang.text :as str]
             [kotoba.test :refer [deftest is testing]]
             [jws.core :as jws]
@@ -144,7 +144,7 @@
 ;; --- the tests ---------------------------------------------------------------
 
 (deftest guest-source-is-present
-  (is (.exists guest-file) (str "kotoba object not found at " guest-file)))
+  (is (io/exists? guest-file) (str "kotoba object not found at " guest-file)))
 
 (deftest a-good-token-verifies-the-same-on-both-sides
   (let [g (drive good ["EdDSA"] toy-verify)
@@ -244,8 +244,7 @@
              (call 'signing-input [state])))
       (testing "which is byte-for-byte what the oracle signs"
         (is (= (vec (seq (jws/signing-input (first parts) (second parts))))
-               (vec (seq (.getBytes ^String (call 'signing-input [state])
-                                    "UTF-8")))))))))
+               (vec (seq (kbytes/utf8-bytes ^String (call 'signing-input [state]))))))))))
 
 (deftest a-token-without-three-parts-is-malformed
   (doseq [bad ["a.b" "a.b.c.d" "" "abc"]]

@@ -1,5 +1,5 @@
 (ns jws.core-test
-  (:require [clojure.data.json :as json]
+  (:require [kotoba.bytes :as kbytes] [clojure.data.json :as json]
             [kotoba.lang.text :as str]
             [kotoba.test :refer [deftest is testing]]
             [ed25519.core]
@@ -11,7 +11,7 @@
 ;; structure and the algorithm discipline, and a real signer would make the
 ;; assertions about bytes rather than about behaviour.
 (defn- toy-sig [signing-input]
-  (jws/b64url->bytes (jws/b64url (str "SIG:" (String. (byte-array (map unchecked-byte (seq signing-input))) "UTF-8")))))
+  (jws/b64url->bytes (jws/b64url (str "SIG:" (kbytes/utf8-string (byte-array (map unchecked-byte (seq signing-input))))))))
 
 (defn- signer [] (fn [input] (toy-sig input)))
 (defn- verifier []
@@ -40,10 +40,10 @@
           p (jws/b64url payload)
           input (jws/signing-input h p)]
       (is (= (str h "." p)
-             (String. (byte-array (map unchecked-byte (seq input))) "UTF-8")))
+             (kbytes/utf8-string (byte-array (map unchecked-byte (seq input))))))
       (testing "the SIGNATURE part is not in it — signing it would be circular"
         (is (not (str/includes?
-                  (String. (byte-array (map unchecked-byte (seq input))) "UTF-8")
+                  (kbytes/utf8-string (byte-array (map unchecked-byte (seq input))))
                   "..")))))))
 
 (deftest a-round-trip-verifies
@@ -218,8 +218,7 @@
 
 (deftest the-signing-input-matches-across-hosts
   (is (= cross-host-signing-input
-         (String. (byte-array
+         (kbytes/utf8-string (byte-array
                    (map unchecked-byte
                         (seq (jws/signing-input (jws/b64url "{\"alg\":\"EdDSA\"}")
-                                                (jws/b64url payload)))))
-                  "UTF-8"))))
+                                                (jws/b64url payload)))))))))
