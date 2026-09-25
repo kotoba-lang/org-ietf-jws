@@ -1,5 +1,5 @@
 (ns jws.core-test
-  (:require [kotoba.bytes :as kbytes] [clojure.data.json :as json]
+  (:require [kotoba.bytes :as kbytes] [kotoba.json :as json]
             [kotoba.lang.text :as str]
             [kotoba.test :refer [deftest is testing]]
             [ed25519.core]
